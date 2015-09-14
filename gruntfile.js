@@ -14,7 +14,8 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'build/index.js': 'lib/adapter.js'
+                    'build/index.js': 'lib/adapter.js',
+                    'build/reporter.js': 'lib/reporter.js'
                 }
             }
         },

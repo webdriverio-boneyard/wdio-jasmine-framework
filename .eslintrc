@@ -1,5 +1,9 @@
 {
   "extends": "standard",
+  "globals": {
+    "jasmine": true,
+    "browser": true
+  },
   "rules": {
     "indent": [2, 4]
   }

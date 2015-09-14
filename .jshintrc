@@ -10,5 +10,9 @@
   "esnext": true,
   "asi": true,
   "quotmark": "single",
-  "experimental": ["asyncawait"]
+  "experimental": ["asyncawait"],
+  "globals": {
+    "jasmine": true,
+    "browser": true
+  }
 }
