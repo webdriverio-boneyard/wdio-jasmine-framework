@@ -20,18 +20,12 @@ module.exports = function (grunt) {
         mocha_istanbul: {
             coverage: {
                 src: ['test/*.js'],
-                root: './build',
                 options: {
                     reporter: 'spec',
                     require: [
                         'should',
                         './test/bootstrap'
                     ]
-                },
-                target: {
-                    options: {
-                        scriptPath: require.resolve('babel-istanbul/lib/cli')
-                    }
                 }
             }
         },
