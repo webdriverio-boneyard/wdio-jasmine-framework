@@ -20,7 +20,7 @@ module.exports = function (grunt) {
         mocha_istanbul: {
             coverage: {
                 src: ['test/*.js'],
-                root: './lib',
+                root: './build',
                 options: {
                     reporter: 'spec',
                     require: [
@@ -56,10 +56,9 @@ module.exports = function (grunt) {
     })
 
     require('load-grunt-tasks')(grunt)
-    grunt.registerTask('default', ['eslint', 'mochaTest'])
+    grunt.registerTask('default', ['eslint', 'build', 'mochaTest'])
     grunt.registerTask('build', 'Build wdio-jasmine-framework', function () {
         grunt.task.run([
-            'default',
             'clean',
             'babel'
         ])
