@@ -1,16 +1,11 @@
-module.exports = function(grunt) {
-    var files = [
-        'gruntfile.js',
-        'lib/*.js',
-        'test/**/*.js'
-    ];
-
+module.exports = function (grunt) {
     grunt.initConfig({
         pkgFile: 'package.json',
         clean: ['build'],
         babel: {
             options: {
-                sourceMap: false
+                sourceMap: false,
+                optional: ['runtime']
             },
             dist: {
                 files: [{
@@ -20,6 +15,20 @@ module.exports = function(grunt) {
                     dest: 'build',
                     ext: '.js'
                 }]
+            }
+        },
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec',
+                    require: [
+                        'should',
+                        function () {
+                            require('babel/register')({ plugins: ['rewire'] })
+                        }
+                    ]
+                },
+                src: ['test/*.js']
             }
         },
         eslint: {
@@ -38,23 +47,29 @@ module.exports = function(grunt) {
                 commitMessage: 'v%VERSION%',
                 pushTo: 'upstream'
             }
+        },
+        watch: {
+            dist: {
+                files: './lib/**/*.js',
+                tasks: ['babel:dist']
+            }
         }
-    });
+    })
 
-    require('load-grunt-tasks')(grunt);
-    grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', 'Build wdio-jasmine', function() {
+    require('load-grunt-tasks')(grunt)
+    grunt.registerTask('default', ['eslint', 'mochaTest'])
+    grunt.registerTask('build', 'Build wdio-jasmine-framework', function () {
         grunt.task.run([
-            'eslint',
+            'default',
             'clean',
             'babel'
-        ]);
-    });
-    grunt.registerTask('release', 'Bump and tag version', function(type) {
+        ])
+    })
+    grunt.registerTask('release', 'Bump and tag version', function (type) {
         grunt.task.run([
             'build',
             'contributors',
             'bump:' + (type || 'patch')
-        ]);
-    });
-};
+        ])
+    })
+}
