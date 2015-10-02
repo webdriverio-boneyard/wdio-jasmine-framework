@@ -17,18 +17,17 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        mochaTest: {
-            test: {
+        mocha_istanbul: {
+            coverage: {
+                src: ['test/*.js'],
+                root: './lib',
                 options: {
                     reporter: 'spec',
                     require: [
                         'should',
-                        function () {
-                            require('babel/register')({ plugins: ['rewire'] })
-                        }
+                        './test/bootstrap'
                     ]
-                },
-                src: ['test/*.js']
+                }
             }
         },
         eslint: {
