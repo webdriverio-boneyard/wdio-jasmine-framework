@@ -27,6 +27,11 @@ module.exports = function (grunt) {
                         'should',
                         './test/bootstrap'
                     ]
+                },
+                target: {
+                    options: {
+                        scriptPath: require.resolve('babel-istanbul/lib/cli')
+                    }
                 }
             }
         },
