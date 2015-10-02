@@ -1,4 +1,4 @@
-WDIO Jasmine [![Build Status](https://travis-ci.org/webdriverio/wdio-jasmine-framework.svg?branch=master)](https://travis-ci.org/webdriverio/wdio-jasmine-framework)
+WDIO Jasmine [![Build Status](https://travis-ci.org/webdriverio/wdio-jasmine-framework.svg?branch=master)](https://travis-ci.org/webdriverio/wdio-jasmine-framework) [![Code Climate](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/badges/gpa.svg)](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework) [![Test Coverage](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/badges/coverage.svg)](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/coverage)
 ============
 
 > A WebdriverIO plugin. Adapter for Jasmine testing framework.
