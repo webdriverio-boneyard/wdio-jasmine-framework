@@ -17,15 +17,16 @@ let addExpectationResult = sinon.spy()
 let ReporterMock = sinon.spy()
 let getFailedCount = ReporterMock.prototype.getFailedCount = sinon.stub().returns(1234)
 let JasmineMock = sinon.spy()
-let jasmine = {
-    getEnv: () => {
-        return { specFilter: sinon.stub() }
-    }
-}
+
 let addSpecFiles = JasmineMock.prototype.addSpecFiles = sinon.stub()
 let addReporter = JasmineMock.prototype.addReporter = sinon.stub()
 let execute = JasmineMock.prototype.execute = sinon.stub()
 let onComplete = JasmineMock.prototype.onComplete = (cb) => { cb() }
+let jasmine = JasmineMock.prototype.jasmine = {
+    getEnv: () => {
+        return { specFilter: sinon.stub() }
+    }
+}
 
 describe('jasmine adapter', () => {
     before(() => {
@@ -34,7 +35,6 @@ describe('jasmine adapter', () => {
         adapter.__Rewire__('runHook', runHook)
         adapter.__Rewire__('wrapCommand', wrapCommand)
         adapter.__Rewire__('runInFiberContext', runInFiberContextMock)
-        adapter.__Rewire__('global', { jasmine: jasmine })
     })
 
     describe('overwrites expectationResultHandler', () => {
