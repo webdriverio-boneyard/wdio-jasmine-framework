@@ -124,5 +124,15 @@ describe('jasmine adapter', () => {
                 }).should.be.true()
             })
         })
+
+        after(() => {
+            adapterFactory.__ResetDependency__('DEFAULT_TIMEOUT_INTERVAL')
+        })
+    })
+
+    after(() => {
+        adapterFactory.__ResetDependency__('wrapCommands')
+        adapterFactory.__ResetDependency__('runInFiberContext')
+        adapterFactory.__ResetDependency__('executeHooksWithArgs')
     })
 })

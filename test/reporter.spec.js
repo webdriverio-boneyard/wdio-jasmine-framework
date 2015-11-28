@@ -4,7 +4,7 @@ import JasmineReporter from '../lib/reporter'
 /**
  * create mocks
  */
-let send = sinon.spy()
+let send
 let reporter
 
 describe('jasmine reporter', () => {
@@ -12,6 +12,7 @@ describe('jasmine reporter', () => {
         JasmineReporter.__Rewire__('process', { send })
 
         reporter = new JasmineReporter()
+        send = reporter.send = sinon.spy()
     })
 
     describe('emits messages for certain jasmine events', () => {
@@ -66,7 +67,7 @@ describe('jasmine reporter', () => {
                 status: 'failed'
             })
             send.calledWithMatch({
-                parent: 'does something',
+                parent: 'does something'
             }).should.be.true()
         })
 

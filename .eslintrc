@@ -8,8 +8,13 @@
     "describe": true,
     "before": true,
     "after": true,
+    "beforeAll": true,
+    "afterAll": true,
+    "beforeEach": true,
+    "afterEach": true,
     "it": true,
     "jasmine": true,
-    "browser": true
+    "browser": true,
+    "expect": true
   }
 }
