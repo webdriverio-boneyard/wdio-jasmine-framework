@@ -1,83 +1,128 @@
 import sinon from 'sinon'
-import adapter from '../lib/adapter'
+import { adapterFactory, JasmineAdapter } from '../lib/adapter'
 
 /**
  * create mocks
  */
-let wrapCommand = sinon.spy()
-let runHook = sinon.spy()
-let runInFiberContextMock = sinon.spy()
-let browser = sinon.spy()
-let expectationResultHandlerMock = sinon.spy()
-let addExpectationResult = sinon.spy()
-
-/**
- * Jasmine mocks
- */
-let ReporterMock = sinon.spy()
-let getFailedCount = ReporterMock.prototype.getFailedCount = sinon.stub().returns(1234)
-let JasmineMock = sinon.spy()
-
-let addSpecFiles = JasmineMock.prototype.addSpecFiles = sinon.stub()
-let addReporter = JasmineMock.prototype.addReporter = sinon.stub()
-let execute = JasmineMock.prototype.execute = sinon.stub()
-let onComplete = JasmineMock.prototype.onComplete = (cb) => { cb() }
-let jasmine = JasmineMock.prototype.jasmine = {
-    getEnv: () => {
-        return { specFilter: sinon.stub() }
-    }
-}
+const NOOP = function () {}
 
 describe('jasmine adapter', () => {
     before(() => {
-        adapter.__Rewire__('Jasmine', JasmineMock)
-        adapter.__Rewire__('JasmineReporter', ReporterMock)
-        adapter.__Rewire__('runHook', runHook)
-        adapter.__Rewire__('wrapCommand', wrapCommand)
-        adapter.__Rewire__('runInFiberContext', runInFiberContextMock)
+        adapterFactory.__Rewire__('wrapCommands', NOOP)
+        adapterFactory.__Rewire__('runInFiberContext', NOOP)
+        adapterFactory.__Rewire__('executeHooksWithArgs', NOOP)
     })
 
-    describe('overwrites expectationResultHandler', () => {
-        it('should execute expectationResultHandler of jasmineOpts', () => {
-            let handler = adapter.expectationResultHandler({
-                expectationResultHandler: expectationResultHandlerMock
-            }, addExpectationResult)
-            handler(true, { foo: 'bar' })
-            expectationResultHandlerMock.calledWithMatch(true, { foo: 'bar' }).should.be.true()
-            addExpectationResult.calledWithMatch(true, { foo: 'bar' }).should.be.true()
+    describe('factory', () => {
+        let JasmineAdapterMock = sinon.spy()
+        let run = JasmineAdapterMock.prototype.run = sinon.spy()
+
+        before(() => {
+            adapterFactory.__set__('_JasmineAdapter', JasmineAdapterMock)
+            adapterFactory.run(1, 2, 3, 4)
         })
 
-        it('should propagate expectationResultHandler error if actual assertion passed', () => {
-            let expectationResultHandlerMock = sinon.stub().throws(new Error('uups'))
-            let handler = adapter.expectationResultHandler({
-                expectationResultHandler: expectationResultHandlerMock
-            }, addExpectationResult)
-            handler(true, { foo: 'bar' })
-            addExpectationResult.calledWithMatch(false, { message: 'expectationResultHandlerError: uups' }).should.be.true()
+        it('should create an adapter instance', () => {
+            JasmineAdapterMock.calledWith(1, 2, 3, 4).should.be.true()
+        })
+
+        it('should immediatelly start run sequence', () => {
+            run.called.should.be.true()
+        })
+
+        after(() => {
+            adapterFactory.__ResetDependency__('_JasmineAdapter')
         })
     })
 
-    describe('runs jasmine tests', () => {
-        it('should return right amount of errors', () => {
-            let promise = adapter.run(0, {
-                jasmineNodeOpts: {
-                    defaultTimeoutInterval: 434343
-                }
-            }).then((failures) => {
-                failures.should.be.exactly(1234)
+    describe('JasmineAdapter', () => {
+        let config = { framework: 'jasmine' }
+        let specs = ['fileA.js', 'fileB.js']
+        let caps = { browserName: 'chrome' }
+        let adapter = {}
+
+        before(() => {
+            adapterFactory.__Rewire__('DEFAULT_TIMEOUT_INTERVAL', 1234)
+        })
+
+        describe('getDefaultInterval', () => {
+            it('selects default interval if nothing is set in the config', () => {
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                adapter.getDefaultInterval().should.be.equal(1234)
             })
-            process.nextTick(() => onComplete())
-            return promise
+
+            it('selects specific interval if set', () => {
+                config.jasmineNodeOpts = { defaultTimeoutInterval: 4321 }
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                adapter.getDefaultInterval().should.be.equal(4321)
+            })
         })
 
-        it('should set default timeout from jasmineOpts', () => {
-            jasmine.DEFAULT_TIMEOUT_INTERVAL.should.be.exactly(434343)
+        describe('getGrepMatch', () => {
+            it('should return always true if nothing set', () => {
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                adapter.getGrepMatch('foo').should.be.true()
+            })
+
+            it('should return true if grepMath is set and spec file matches file', () => {
+                let spec = { getFullName: () => 'foo.js' }
+                config.jasmineNodeOpts = { grep: 'foo' }
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                adapter.getGrepMatch(spec).should.be.true()
+            })
+
+            it('should return false if grepMath is set and spec file doesn\'t match file', () => {
+                let spec = { getFullName: () => 'bar.js' }
+                config.jasmineNodeOpts = { grep: 'foo' }
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                adapter.getGrepMatch(spec).should.be.false()
+            })
         })
 
-        it('should run hooks and wrap commands', () => {
-            wrapCommand.called.should.be.true()
-            runHook.called.should.be.true()
+        describe('getExpectationResultHandler', () => {
+            it('should return default jasmine expectationResultHandler if nothing set', () => {
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                let jasmine = { Spec: { prototype: { addExpectationResult: 1234 } } }
+                adapter.getExpectationResultHandler(jasmine).should.be.equal(1234)
+            })
+
+            it('should return custom expectationResultHandler if set', () => {
+                config.jasmineNodeOpts = { expectationResultHandler: NOOP }
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                let jasmine = { Spec: { prototype: { addExpectationResult: 1234 } } }
+                adapter.getExpectationResultHandler(jasmine).should.not.be.equal(1234)
+            })
+        })
+
+        describe('expectationResultHandler', () => {
+            let origHandler = sinon.spy()
+            let customHandler = sinon.spy()
+            let customFailHandler = sinon.stub().throws()
+
+            it('should return a function', () => {
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                adapter.expectationResultHandler().should.be.type('function')
+            })
+
+            it('calls the custom handler', () => {
+                config.jasmineNodeOpts.expectationResultHandler = customHandler
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                let handler = adapter.expectationResultHandler(origHandler)
+                handler('foo', 'bar')
+                customHandler.calledWithExactly('foo', 'bar').should.be.true()
+                origHandler.calledWithExactly('foo', 'bar').should.be.true()
+            })
+
+            it('should fail test if custom handler throws', () => {
+                config.jasmineNodeOpts.expectationResultHandler = customFailHandler
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                let handler = adapter.expectationResultHandler(origHandler)
+                handler('foo', 'bar')
+                origHandler.calledWithExactly(false, {
+                    passed: false,
+                    message: 'expectationResultHandlerError: Error'
+                }).should.be.true()
+            })
         })
     })
-
 })
