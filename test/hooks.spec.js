@@ -32,7 +32,7 @@ describe('JasmineAdapter', () => {
         adapterFactory.__Rewire__('JasmineReporter', JasmineReporter)
     })
 
-    describe('JasmineAdapter executes hooks using native Promises', () => {
+    describe('executes hooks using native Promises', () => {
         before(async () => {
             global.browser = new WebdriverIO()
             const adapter = new JasmineAdapter(0, configNativePromises, specs, configNativePromises.capabilities)
@@ -244,7 +244,7 @@ describe('JasmineAdapter', () => {
         })
     })
 
-    describe('JasmineAdapter executes hooks using WDIO commands', () => {
+    describe('executes hooks using WDIO commands', () => {
         before(async () => {
             global.browser = new WebdriverIO()
             const adapter = new JasmineAdapter(0, configWDIOCommands, specs2, configWDIOCommands.capabilities)
@@ -362,7 +362,7 @@ describe('JasmineAdapter', () => {
         })
     })
 
-    describe('JasmineAdapter executes hooks using 3rd party libs (q library)', () => {
+    describe('executes hooks using 3rd party libs (q library)', () => {
         before(async () => {
             global.browser = new WebdriverIO()
             const adapter = new JasmineAdapter(0, configQPromises, specs3, configQPromises.capabilities)
@@ -480,7 +480,7 @@ describe('JasmineAdapter', () => {
         })
     })
 
-    describe('JasmineAdapter executes custom commands', () => {
+    describe('executes custom commands', () => {
         before(async () => {
             global.browser = new WebdriverIO()
             const adapter = new JasmineAdapter(0, configCustomCommands, specs4, configCustomCommands.capabilities)
