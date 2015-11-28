@@ -27,7 +27,7 @@ WebdriverIO.prototype = {
 
 JasmineReporter.prototype.send = NOOP
 
-describe('JasmineAdapter', () => {
+describe('jasmine adapter hook tests', () => {
     before(() => {
         adapterFactory.__Rewire__('JasmineReporter', JasmineReporter)
     })

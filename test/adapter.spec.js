@@ -6,7 +6,7 @@ import { adapterFactory, JasmineAdapter } from '../lib/adapter'
  */
 const NOOP = function () {}
 
-describe('jasmine adapter', () => {
+describe('jasmine adapter unit tests', () => {
     before(() => {
         adapterFactory.__Rewire__('wrapCommands', NOOP)
         adapterFactory.__Rewire__('runInFiberContext', NOOP)
@@ -35,7 +35,7 @@ describe('jasmine adapter', () => {
         })
     })
 
-    describe('JasmineAdapter', () => {
+    describe('adapter', () => {
         let config = { framework: 'jasmine' }
         let specs = ['fileA.js', 'fileB.js']
         let caps = { browserName: 'chrome' }
