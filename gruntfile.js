@@ -21,11 +21,10 @@ module.exports = function (grunt) {
             coverage: {
                 src: ['test/*.js'],
                 options: {
+                    scriptPath: require.resolve('isparta/bin/isparta'),
                     reporter: 'spec',
-                    require: [
-                        'should',
-                        './test/bootstrap'
-                    ]
+                    mochaOptions: ['--compilers', 'js:babel/register', '--recursive', '-t', '60000'],
+                    require: ['should']
                 }
             }
         },
@@ -50,6 +49,11 @@ module.exports = function (grunt) {
             dist: {
                 files: './lib/**/*.js',
                 tasks: ['babel:dist']
+            }
+        },
+        env: {
+            test: {
+                BABEL_ENV: 'test'
             }
         }
     })
