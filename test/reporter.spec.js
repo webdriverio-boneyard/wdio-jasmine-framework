@@ -9,8 +9,6 @@ let reporter
 
 describe('jasmine reporter', () => {
     before(() => {
-        JasmineReporter.__Rewire__('process', { send })
-
         reporter = new JasmineReporter()
         send = reporter.send = sinon.spy()
     })
@@ -90,9 +88,5 @@ describe('jasmine reporter', () => {
         it('should have right fail count at the end', () => {
             reporter.getFailedCount().should.be.exactly(2)
         })
-    })
-
-    after(() => {
-        JasmineReporter.__ResetDependency__('process')
     })
 })
