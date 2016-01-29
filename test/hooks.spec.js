@@ -2,6 +2,7 @@ import configQPromises from './fixtures/hooks.using.q.promises'
 import configNativePromises from './fixtures/hooks.using.native.promises'
 import configWDIOCommands from './fixtures/hooks.using.wdio.commands'
 import configCustomCommands from './fixtures/hooks.using.custom.commands'
+import configAsyncCommands from './fixtures/hooks.using.async.conf'
 import { adapterFactory, JasmineAdapter } from '../lib/adapter'
 import JasmineReporter from '../lib/reporter'
 
@@ -9,6 +10,7 @@ const specs = [__dirname + '/fixtures/sample.spec.js']
 const specs2 = [__dirname + '/fixtures/sample2.spec.js']
 const specs3 = [__dirname + '/fixtures/sample3.spec.js']
 const specs4 = [__dirname + '/fixtures/sample4.spec.js']
+const specs5 = [__dirname + '/fixtures/sample5.spec.js']
 const NOOP = () => {}
 
 const WebdriverIO = class {}
@@ -527,6 +529,126 @@ describe('jasmine adapter hook tests', () => {
         it.skip('should defer execution until custom command wrapping wdio comamnd treated as promise resolves', () => {
             let duration = global.____wdio.customHandleWdioAsPromise.end - global.____wdio.customHandleWdioAsPromise.start
             duration.should.be.greaterThan(1990)
+        })
+    })
+
+    describe('MochaAdapter executes async hooks', () => {
+        before(async () => {
+            global.browser = new WebdriverIO()
+            global.browser.options = { sync: false }
+            const adapter = new JasmineAdapter(0, configAsyncCommands, specs5, configAsyncCommands.capabilities);
+            (await adapter.run()).should.be.equal(0, 'actual test failed')
+            console.log(global._____wdio)
+        })
+
+        describe('before', () => {
+            let beforeHook
+
+            before(() => beforeHook = global._____wdio.before)
+
+            it('should defer execution until promise was resolved', () => {
+                let duration = beforeHook.end - beforeHook.start
+                duration.should.be.greaterThan(490)
+            })
+        })
+
+        describe('beforeSuite', () => {
+            let beforeSuiteHook
+
+            before(() => beforeSuiteHook = global._____wdio.beforeSuite)
+
+            it('should defer execution until promise was resolved', () => {
+                let duration = beforeSuiteHook.end - beforeSuiteHook.start
+                duration.should.be.greaterThan(490)
+            })
+        })
+
+        describe('beforeHook', () => {
+            let beforeHookHook
+
+            before(() => beforeHookHook = global._____wdio.beforeHook)
+
+            it('should defer execution until promise was resolved', () => {
+                let duration = beforeHookHook.end - beforeHookHook.start
+                duration.should.be.greaterThan(490)
+            })
+        })
+
+        describe('afterHook', () => {
+            let afterHookHook
+
+            before(() => afterHookHook = global._____wdio.afterHook)
+
+            it('should defer execution until promise was resolved', () => {
+                let duration = afterHookHook.end - afterHookHook.start
+                duration.should.be.greaterThan(490)
+            })
+        })
+
+        describe('beforeTest', () => {
+            let beforeTestHook
+
+            before(() => beforeTestHook = global._____wdio.beforeTest)
+
+            it('should defer execution until promise was resolved', () => {
+                let duration = beforeTestHook.end - beforeTestHook.start
+                duration.should.be.greaterThan(490)
+            })
+        })
+
+        describe('beforeCommand', () => {
+            let beforeCommandHook
+
+            before(() => beforeCommandHook = global._____wdio.beforeCommand)
+
+            it('should defer execution until promise was resolved', () => {
+                let duration = beforeCommandHook.end - beforeCommandHook.start
+                duration.should.be.greaterThan(490)
+            })
+        })
+
+        describe('afterCommand', () => {
+            let afterCommandHook
+
+            before(() => afterCommandHook = global._____wdio.afterCommand)
+
+            it('should defer execution until promise was resolved', () => {
+                let duration = afterCommandHook.end - afterCommandHook.start
+                duration.should.be.greaterThan(490)
+            })
+        })
+
+        describe('afterTest', () => {
+            let afterTestHook
+
+            before(() => afterTestHook = global._____wdio.afterTest)
+
+            it('should defer execution until promise was resolved', () => {
+                let duration = afterTestHook.end - afterTestHook.start
+                duration.should.be.greaterThan(490)
+            })
+        })
+
+        describe('afterSuite', () => {
+            let afterSuiteHook
+
+            before(() => afterSuiteHook = global._____wdio.afterSuite)
+
+            it('should defer execution until promise was resolved', () => {
+                let duration = afterSuiteHook.end - afterSuiteHook.start
+                duration.should.be.greaterThan(490)
+            })
+        })
+
+        describe('after', () => {
+            let afterHook
+
+            before(() => afterHook = global._____wdio.after)
+
+            it('should defer execution until promise was resolved', () => {
+                let duration = afterHook.end - afterHook.start
+                duration.should.be.greaterThan(490)
+            })
         })
     })
 
