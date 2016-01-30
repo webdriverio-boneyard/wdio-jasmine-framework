@@ -2,6 +2,7 @@ import { JasmineAdapter } from '../lib/adapter'
 
 const syncSpecs = [__dirname + '/fixtures/tests.sync.spec.js']
 const asyncSpecs = [__dirname + '/fixtures/tests.async.spec.js']
+const fitSpecs = [__dirname + '/fixtures/tests.fit.spec.js']
 const NOOP = () => {}
 
 const WebdriverIO = class {}
@@ -20,8 +21,8 @@ describe('JasmineAdapter', () => {
     describe('executes specs syncronous', () => {
         before(async () => {
             global.browser = new WebdriverIO()
-            const adapter = new JasmineAdapter(0, {}, syncSpecs, {})
-            await adapter.run()
+            const adapter = new JasmineAdapter(0, {}, syncSpecs, {});
+            (await adapter.run()).should.be.equal(0, 'actual test failed')
         })
 
         it('should run async commands in beforeEach blocks', () => {
@@ -79,6 +80,22 @@ describe('JasmineAdapter', () => {
 
         it('should run async commands in afterEach blocks', () => {
             global.______wdio.afterEach.should.be.greaterThan(499)
+        })
+    })
+
+    describe('should support fit blocks', () => {
+        before(async () => {
+            global.browser = new WebdriverIO()
+            const adapter = new JasmineAdapter(0, {}, fitSpecs, {});
+            (await adapter.run()).should.be.equal(0, 'actual test failed')
+        })
+
+        it('should not run it block', () => {
+            (typeof global.fitwdio.it).should.be.equal('undefined')
+        })
+
+        it('should run forced it block', () => {
+            global.fitwdio.fit.should.be.greaterThan(499)
         })
     })
 })

@@ -13,6 +13,7 @@
     "beforeEach": true,
     "afterEach": true,
     "it": true,
+    "fit": true,
     "jasmine": true,
     "browser": true,
     "expect": true
