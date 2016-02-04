@@ -4,7 +4,9 @@
   "description": "A WebdriverIO plugin. Adapter for Jasmine testing framework.",
   "main": "build/adapter.js",
   "scripts": {
-    "test": "./node_modules/.bin/grunt"
+    "build": "grunt",
+    "test": "grunt mocha_istanbul",
+    "prepublish": "npm prune && npm run build"
   },
   "repository": {
     "type": "git",
