@@ -2,6 +2,7 @@ import { JasmineAdapter } from '../lib/adapter'
 
 const syncSpecs = [__dirname + '/fixtures/tests.sync.spec.js']
 const asyncSpecs = [__dirname + '/fixtures/tests.async.spec.js']
+const syncAsyncSpecs = [__dirname + '/fixtures/tests.sync.async.spec.js']
 const fdescribeSpecs = [__dirname + '/fixtures/tests.fdescribe.spec.js']
 const fitSpecs = [__dirname + '/fixtures/tests.fit.spec.js']
 const NOOP = () => {}
@@ -113,6 +114,44 @@ describe('JasmineAdapter', () => {
 
         it('should run forced describe block', () => {
             global.fdescribewdio.fit.should.be.greaterThan(499)
+        })
+    })
+
+    describe('executes specs synchronous and asynchronous', () => {
+        before(async () => {
+            global.browser = new WebdriverIO()
+            const adapter = new JasmineAdapter(0, {}, fdescribeSpecs, {});
+            (await adapter.run()).should.be.equal(0, 'actual test failed')
+        })
+        before(async () => {
+            global.browser = new WebdriverIO()
+            const adapter = new JasmineAdapter(0, {}, syncAsyncSpecs, {});
+            (await adapter.run()).should.be.equal(0, 'actual test failed')
+        })
+
+        it('should run sync commands in beforeEach blocks', () => {
+            global._______wdio.beforeEachSync.should.be.greaterThan(499)
+            global._______wdio.beforeEachAsync.should.be.greaterThan(499)
+        })
+
+        it('should run sync commands in before blocks', () => {
+            global._______wdio.beforeSync.should.be.greaterThan(499)
+            global._______wdio.beforeAsync.should.be.greaterThan(499)
+        })
+
+        it('should run sync commands in it blocks', () => {
+            global._______wdio.itSync.should.be.greaterThan(499)
+            global._______wdio.itAsync.should.be.greaterThan(499)
+        })
+
+        it('should run sync commands in after blocks', () => {
+            global._______wdio.afterSync.should.be.greaterThan(499)
+            global._______wdio.afterAsync.should.be.greaterThan(499)
+        })
+
+        it('should run sync commands in afterEach blocks', () => {
+            global._______wdio.afterEachSync.should.be.greaterThan(499)
+            global._______wdio.afterEachAsync.should.be.greaterThan(499)
         })
     })
 })
