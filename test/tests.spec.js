@@ -2,6 +2,7 @@ import { JasmineAdapter } from '../lib/adapter'
 
 const syncSpecs = [__dirname + '/fixtures/tests.sync.spec.js']
 const asyncSpecs = [__dirname + '/fixtures/tests.async.spec.js']
+const fdescribeSpecs = [__dirname + '/fixtures/tests.fdescribe.spec.js']
 const fitSpecs = [__dirname + '/fixtures/tests.fit.spec.js']
 const NOOP = () => {}
 
@@ -96,6 +97,22 @@ describe('JasmineAdapter', () => {
 
         it('should run forced it block', () => {
             global.fitwdio.fit.should.be.greaterThan(499)
+        })
+    })
+
+    describe('should support fdescribe blocks', () => {
+        before(async () => {
+            global.browser = new WebdriverIO()
+            const adapter = new JasmineAdapter(0, {}, fdescribeSpecs, {});
+            (await adapter.run()).should.be.equal(0, 'actual test failed')
+        })
+
+        it('should not run describe block', () => {
+            (typeof global.fdescribewdio.it).should.be.equal('undefined')
+        })
+
+        it('should run forced describe block', () => {
+            global.fdescribewdio.fit.should.be.greaterThan(499)
         })
     })
 })
