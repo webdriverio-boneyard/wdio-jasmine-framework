@@ -1,6 +1,6 @@
 {
   "name": "wdio-jasmine-framework",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "A WebdriverIO plugin. Adapter for Jasmine testing framework.",
   "main": "build/adapter.js",
   "scripts": {
