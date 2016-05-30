@@ -24,7 +24,8 @@ WebdriverIO.prototype = {
     }),
     pause: (ms = 500) => new Promise((r) => {
         setTimeout(() => r(), ms)
-    })
+    }),
+    getPrototype: () => WebdriverIO.prototype
 }
 
 JasmineReporter.prototype.send = NOOP
@@ -532,7 +533,7 @@ describe('jasmine adapter hook tests', () => {
         })
     })
 
-    describe('MochaAdapter executes async hooks', () => {
+    describe('JasmineAdapter executes async hooks', () => {
         before(async () => {
             global.browser = new WebdriverIO()
             global.browser.options = { sync: false }
