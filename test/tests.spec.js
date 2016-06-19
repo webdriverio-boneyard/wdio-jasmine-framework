@@ -2,6 +2,8 @@ import { JasmineAdapter } from '../lib/adapter'
 
 const syncSpecs = [__dirname + '/fixtures/tests.sync.spec.js']
 const asyncSpecs = [__dirname + '/fixtures/tests.async.spec.js']
+const asyncPromiseSpecs = [__dirname + '/fixtures/tests.async.promise.spec.js']
+const asyncFailureSpecs = [__dirname + '/fixtures/tests.async.failures.spec.js']
 const syncAsyncSpecs = [__dirname + '/fixtures/tests.sync.async.spec.js']
 const fdescribeSpecs = [__dirname + '/fixtures/tests.fdescribe.spec.js']
 const fitSpecs = [__dirname + '/fixtures/tests.fit.spec.js']
@@ -83,6 +85,30 @@ describe('JasmineAdapter', () => {
 
         it('should run async commands in afterEach blocks', () => {
             global.______wdio.afterEach.should.be.greaterThan(499)
+        })
+    })
+
+    describe('executes specs asynchronous promise resolution', () => {
+        before(async () => {
+            global.browser = new WebdriverIO()
+            global.browser.options = { sync: false }
+            const adapter = new JasmineAdapter(0, {}, asyncPromiseSpecs, {});
+            (await adapter.run()).should.be.equal(0, 'actual test failed')
+        })
+
+        it('should run async commands in it blocks', () => {
+            global.______wdio.it.should.be.greaterThan(499)
+        })
+    })
+
+    describe('executes specs asynchronous with failures', () => {
+        it('should capture failures', async () => {
+            global.browser = new WebdriverIO()
+            global.browser.options = { sync: false }
+            const adapter = new JasmineAdapter(0, {}, asyncFailureSpecs, {})
+            const result = await adapter.run()
+            result.should.be.equal(2, 'both tests should fail')
+            adapter.reporter.getFailedCount().should.be.equal(2, 'both tests should fail')
         })
     })
 

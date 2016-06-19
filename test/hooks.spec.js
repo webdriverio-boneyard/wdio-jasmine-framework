@@ -11,6 +11,7 @@ const specs2 = [__dirname + '/fixtures/sample2.spec.js']
 const specs3 = [__dirname + '/fixtures/sample3.spec.js']
 const specs4 = [__dirname + '/fixtures/sample4.spec.js']
 const specs5 = [__dirname + '/fixtures/sample5.spec.js']
+const failureSpec = [__dirname + '/fixtures/hook.failure.spec.js']
 const NOOP = () => {}
 
 const WebdriverIO = class {}
@@ -627,6 +628,17 @@ describe('jasmine adapter hook tests', () => {
                 let duration = afterHook.end - afterHook.start
                 duration.should.be.greaterThan(490)
             })
+        })
+    })
+
+    describe('hook exceptions', () => {
+        it('should fail test', async () => {
+            global.browser = new WebdriverIO()
+            global.browser.options = { sync: false }
+            const adapter = new JasmineAdapter(0, {}, failureSpec, {})
+            const result = await adapter.run()
+            result.should.be.equal(1, 'test should fail')
+            adapter.reporter.getFailedCount().should.be.equal(1, 'test should fail')
         })
     })
 
