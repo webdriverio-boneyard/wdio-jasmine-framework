@@ -3,20 +3,5 @@
   "parser": "babel-eslint",
   "rules": {
     "indent": [2, 4]
-  },
-  "globals": {
-    "describe": true,
-    "before": true,
-    "after": true,
-    "beforeAll": true,
-    "afterAll": true,
-    "beforeEach": true,
-    "afterEach": true,
-    "it": true,
-    "fit": true,
-    "fdescribe": true,
-    "jasmine": true,
-    "browser": true,
-    "expect": true
   }
 }
