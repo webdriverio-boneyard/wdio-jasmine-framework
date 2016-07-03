@@ -29,7 +29,7 @@
   "dependencies": {
     "jasmine": "~2.3.2",
     "babel-runtime": "^5.8.25",
-    "wdio-sync": "0.5.3"
+    "wdio-sync": "0.5.6"
   },
   "devDependencies": {
     "babel": "^5.8.23",

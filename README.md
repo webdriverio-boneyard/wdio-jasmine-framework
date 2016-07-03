@@ -10,7 +10,7 @@ The easiest way is to keep `wdio-jasmine-framework` as a devDependency in your `
 ```json
 {
   "devDependencies": {
-    "wdio-jasmine-framework": "~0.1"
+    "wdio-jasmine-framework": "~0.2.3"
   }
 }
 ```
@@ -49,7 +49,7 @@ Default: 10000
 
 ### expectationResultHandler
 The Jasmine framework allows it to intercept each assertion in order to log the state of the application
-or website depending on the result. For example it is pretty handy to take a screenshot everytime
+or website depending on the result. For example it is pretty handy to take a screenshot every time
 an assertion fails.
 
 Type: `Function`<br>
