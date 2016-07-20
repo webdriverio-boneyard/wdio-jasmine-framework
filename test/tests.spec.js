@@ -53,6 +53,14 @@ describe('JasmineAdapter', () => {
         it('should run async commands in afterEach blocks', () => {
             global._____wdio.afterEach.should.be.greaterThan(499)
         })
+
+        it('should respect promises in tests', () => {
+            global._____wdio.promise.should.be.greaterThan(499)
+        })
+
+        it('should respect promises in hook', () => {
+            global._____wdio.promisehook.should.be.greaterThan(499)
+        })
     })
 
     describe('executes specs asynchronous', () => {
