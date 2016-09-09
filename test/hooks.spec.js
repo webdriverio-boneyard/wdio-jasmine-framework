@@ -39,6 +39,7 @@ describe('jasmine adapter hook tests', () => {
     describe('executes hooks using native Promises', () => {
         before(async () => {
             global.browser = new WebdriverIO()
+            global.browser.options = {}
             const adapter = new JasmineAdapter(0, configNativePromises, specs, configNativePromises.capabilities);
             (await adapter.run()).should.be.equal(0, 'actual test failed')
         })
@@ -251,6 +252,7 @@ describe('jasmine adapter hook tests', () => {
     describe('executes hooks using WDIO commands', () => {
         before(async () => {
             global.browser = new WebdriverIO()
+            global.browser.options = {}
             const adapter = new JasmineAdapter(0, configWDIOCommands, specs2, configWDIOCommands.capabilities);
             (await adapter.run()).should.be.equal(0, 'actual test failed')
         })
@@ -369,6 +371,7 @@ describe('jasmine adapter hook tests', () => {
     describe('executes hooks using 3rd party libs (q library)', () => {
         before(async () => {
             global.browser = new WebdriverIO()
+            global.browser.options = {}
             const adapter = new JasmineAdapter(0, configQPromises, specs3, configQPromises.capabilities);
             (await adapter.run()).should.be.equal(0, 'actual test failed')
         })
@@ -487,6 +490,7 @@ describe('jasmine adapter hook tests', () => {
     describe('executes custom commands', () => {
         before(async () => {
             global.browser = new WebdriverIO()
+            global.browser.options = {}
             const adapter = new JasmineAdapter(0, configCustomCommands, specs4, configCustomCommands.capabilities);
             (await adapter.run()).should.be.equal(0, 'actual test failed')
         })

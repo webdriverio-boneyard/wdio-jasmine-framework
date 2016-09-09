@@ -26,6 +26,7 @@ describe('JasmineAdapter', () => {
     describe('executes specs syncronous', () => {
         before(async () => {
             global.browser = new WebdriverIO()
+            global.browser.options = {}
             const adapter = new JasmineAdapter(0, {}, syncSpecs, {});
             (await adapter.run()).should.be.equal(0, 'actual test failed')
         })
@@ -123,6 +124,7 @@ describe('JasmineAdapter', () => {
     describe('should support fit blocks', () => {
         before(async () => {
             global.browser = new WebdriverIO()
+            global.browser.options = {}
             const adapter = new JasmineAdapter(0, {}, fitSpecs, {});
             (await adapter.run()).should.be.equal(0, 'actual test failed')
         })
@@ -139,6 +141,7 @@ describe('JasmineAdapter', () => {
     describe('should support fdescribe blocks', () => {
         before(async () => {
             global.browser = new WebdriverIO()
+            global.browser.options = {}
             const adapter = new JasmineAdapter(0, {}, fdescribeSpecs, {});
             (await adapter.run()).should.be.equal(0, 'actual test failed')
         })
@@ -155,11 +158,7 @@ describe('JasmineAdapter', () => {
     describe('executes specs synchronous and asynchronous', () => {
         before(async () => {
             global.browser = new WebdriverIO()
-            const adapter = new JasmineAdapter(0, {}, fdescribeSpecs, {});
-            (await adapter.run()).should.be.equal(0, 'actual test failed')
-        })
-        before(async () => {
-            global.browser = new WebdriverIO()
+            global.browser.options = {}
             const adapter = new JasmineAdapter(0, {}, syncAsyncSpecs, {});
             (await adapter.run()).should.be.equal(0, 'actual test failed')
         })
