@@ -8,8 +8,7 @@ describe('dummy test', () => {
         })
 
         browser.addCommand('customWdioPromise', function async (a) {
-            return browser.pause(1000)
-            .then(() => {
+            return browser.pause(1000).then(() => {
                 return a + 1
             })
         })
@@ -51,10 +50,9 @@ describe('dummy test', () => {
         })
 
         browser.addCommand('customHandleWdioAsPromise', function async (a) {
-            return browser.customWdio(a)
-            .then((b) => {
+            return browser.pause(1000).then(() => browser.customWdio(a).then((b) => {
                 return b + 1
-            })
+            }))
         })
     })
 
