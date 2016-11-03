@@ -58,9 +58,9 @@
     "sinon": "^1.17.1"
   },
   "contributors": [
+    "christian-bromann <mail@christian-bromann.com>",
     "Christian Bromann <github@christian-bromann.com>",
     "Kurt Harriger <kharriger@rallydev.com>",
-    "christian-bromann <mail@christian-bromann.com>",
     "Reuben <reuben.pasquini@hp.com>",
     "Boris Serdiuk <just-boris@hotmail.com>",
     "just-boris <just-boris@yandex-team.ru>"
