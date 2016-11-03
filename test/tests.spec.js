@@ -7,6 +7,7 @@ const asyncFailureSpecs = [__dirname + '/fixtures/tests.async.failures.spec.js']
 const syncAsyncSpecs = [__dirname + '/fixtures/tests.sync.async.spec.js']
 const fdescribeSpecs = [__dirname + '/fixtures/tests.fdescribe.spec.js']
 const fitSpecs = [__dirname + '/fixtures/tests.fit.spec.js']
+const xitSpecs = [__dirname + '/fixtures/tests.xit.spec.js']
 const NOOP = () => {}
 
 const WebdriverIO = class {}
@@ -135,6 +136,15 @@ describe('JasmineAdapter', () => {
 
         it('should run forced it block', () => {
             global.fitwdio.fit.should.be.greaterThan(499)
+        })
+    })
+
+    describe('should support xit blocks', () => {
+        it('should not fail as all test blocks are marked as pending', async () => {
+            global.browser = new WebdriverIO()
+            global.browser.options = { }
+            const adapter = new JasmineAdapter(0, {}, xitSpecs, {});
+            (await adapter.run()).should.be.equal(0, 'actual test failed')
         })
     })
 
