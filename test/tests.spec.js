@@ -8,7 +8,7 @@ const syncAsyncSpecs = [__dirname + '/fixtures/tests.sync.async.spec.js']
 const fdescribeSpecs = [__dirname + '/fixtures/tests.fdescribe.spec.js']
 const fitSpecs = [__dirname + '/fixtures/tests.fit.spec.js']
 const xitSpecs = [__dirname + '/fixtures/tests.xit.spec.js']
-const xdescribeSpecs = [__dirname + '/fixtures/tests.xdescribe.spec.js'];
+const xdescribeSpecs = [__dirname + '/fixtures/tests.xdescribe.spec.js']
 const NOOP = () => {}
 
 const WebdriverIO = class {}
