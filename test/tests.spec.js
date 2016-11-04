@@ -8,6 +8,7 @@ const syncAsyncSpecs = [__dirname + '/fixtures/tests.sync.async.spec.js']
 const fdescribeSpecs = [__dirname + '/fixtures/tests.fdescribe.spec.js']
 const fitSpecs = [__dirname + '/fixtures/tests.fit.spec.js']
 const xitSpecs = [__dirname + '/fixtures/tests.xit.spec.js']
+const xdescribeSpecs = [__dirname + '/fixtures/tests.xdescribe.spec.js']
 const NOOP = () => {}
 
 const WebdriverIO = class {}
@@ -144,6 +145,15 @@ describe('JasmineAdapter', () => {
             global.browser = new WebdriverIO()
             global.browser.options = { }
             const adapter = new JasmineAdapter(0, {}, xitSpecs, {});
+            (await adapter.run()).should.be.equal(0, 'actual test failed')
+        })
+    })
+
+    describe('should support xdescribe blocks', () => {
+        it('should not fail as all suite blocks are marked as pending', async () => {
+            global.browser = new WebdriverIO()
+            global.browser.options = { }
+            const adapter = new JasmineAdapter(0, {}, xdescribeSpecs, {});
             (await adapter.run()).should.be.equal(0, 'actual test failed')
         })
     })
