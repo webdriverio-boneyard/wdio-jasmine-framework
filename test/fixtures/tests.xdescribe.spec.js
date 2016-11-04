@@ -10,7 +10,6 @@ xdescribe('sample test - w/beforeEach Error', () => {
     })
 })
 
-
 xdescribe('sample test - w/it Error', function() {
     it('should ignore this error', () => {
         throw new Error('ignore it Error')

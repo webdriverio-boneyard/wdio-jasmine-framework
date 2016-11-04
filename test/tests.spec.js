@@ -156,7 +156,7 @@ describe('JasmineAdapter', () => {
             const adapter = new JasmineAdapter(0, {}, xdescribeSpecs, {});
             (await adapter.run()).should.be.equal(0, 'actual test failed')
         })
-    });
+    })
 
     describe('should support fdescribe blocks', () => {
         before(async () => {
