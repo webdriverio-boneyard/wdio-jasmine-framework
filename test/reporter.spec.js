@@ -16,56 +16,69 @@ describe('jasmine reporter', () => {
     describe('emits messages for certain jasmine events', () => {
         it('should emit suite:start', () => {
             reporter.suiteStarted({
-                description: 'my suite'
+                description: 'my suite',
+                id: 1
             })
             send.calledWithMatch({
                 event: 'suite:start',
-                type: 'suite'
+                type: 'suite',
+                uid: 'my suite1'
             }).should.be.true()
         })
 
         it('should emit spec:start', () => {
-            reporter.specStarted()
+            reporter.specStarted({
+                description: 'my test',
+                id: 2
+            })
             send.calledWithMatch({
                 event: 'test:start',
                 type: 'test',
-                parent: 'my suite'
+                parent: 'my suite1',
+                uid: 'my test2'
             }).should.be.true()
         })
 
         it('should emit spec:done with failed test', () => {
             reporter.specDone({
-                status: 'failed'
+                status: 'failed',
+                description: 'my test',
+                id: 3
             })
             send.calledWithMatch({
                 event: 'test:fail',
                 type: 'test',
-                parent: 'my suite'
+                parent: 'my suite1',
+                uid: 'my test3'
             }).should.be.true()
         })
 
         it('should emit spec:done with passed test', () => {
             reporter.specStarted()
             reporter.specDone({
-                status: 'passed'
+                status: 'passed',
+                description: 'my test',
+                id: 4
             })
             send.calledWithMatch({
                 event: 'test:pass',
                 type: 'test',
-                parent: 'my suite'
+                parent: 'my suite1',
+                uid: 'my test4'
             }).should.be.true()
         })
 
         it('should nest tests in suites', () => {
             reporter.suiteStarted({
-                description: 'does something'
+                description: 'does something',
+                id: 1
             })
             reporter.specStarted()
             reporter.specDone({
                 status: 'failed'
             })
             send.calledWithMatch({
-                parent: 'does something'
+                parent: 'does something1'
             }).should.be.true()
         })
 
@@ -74,7 +87,7 @@ describe('jasmine reporter', () => {
             send.calledWithMatch({
                 event: 'suite:end',
                 type: 'suite',
-                parent: 'my suite'
+                parent: 'my suite1'
             }).should.be.true()
 
             reporter.suiteDone()
