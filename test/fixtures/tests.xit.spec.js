@@ -3,6 +3,11 @@ describe('sample test', () => {
 
     it('can be declared with "it" but without a function and pend').pend('ignore me')
 
+    it('should pend with a reason', () => {
+        pending('ignore reason')
+        throw new Error('ignore me')
+    })
+
     xit('xit', () => {
         throw new Error('ignore me')
     }, 'ignore me')
