@@ -10,7 +10,8 @@ let reporter
 describe('jasmine reporter', () => {
     before(() => {
         reporter = new JasmineReporter()
-        send = reporter.send = sinon.spy()
+        send = reporter.send = sinon.stub()
+        send.returns(true)
     })
 
     describe('emits messages for certain jasmine events', () => {
