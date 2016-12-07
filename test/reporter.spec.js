@@ -97,6 +97,28 @@ describe('jasmine reporter', () => {
         })
     })
 
+    it('should wait until all events were sent', () => {
+        const start = (new Date()).getTime()
+
+        reporter.specStarted()
+        reporter.specDone({
+            status: 'passed',
+            description: 'my test',
+            id: 4
+        })
+
+        setTimeout(() => {
+            send.args[0][3]()
+            send.args[1][3]()
+            send.args[2][3]()
+        }, 500)
+
+        return reporter.waitUntilSettled().then(() => {
+            const end = (new Date()).getTime();
+            (end - start).should.be.greaterThan(500)
+        })
+    })
+
     describe('provides a fail counter', () => {
         it('should have right fail count at the end', () => {
             reporter.getFailedCount().should.be.exactly(2)
