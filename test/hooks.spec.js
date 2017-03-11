@@ -1,3 +1,5 @@
+import path from 'path'
+
 import configQPromises from './fixtures/hooks.using.q.promises'
 import configNativePromises from './fixtures/hooks.using.native.promises'
 import configWDIOCommands from './fixtures/hooks.using.wdio.commands'
@@ -6,12 +8,12 @@ import configAsyncCommands from './fixtures/hooks.using.async.conf'
 import { adapterFactory, JasmineAdapter } from '../lib/adapter'
 import JasmineReporter from '../lib/reporter'
 
-const specs = [__dirname + '/fixtures/sample.spec.js']
-const specs2 = [__dirname + '/fixtures/sample2.spec.js']
-const specs3 = [__dirname + '/fixtures/sample3.spec.js']
-const specs4 = [__dirname + '/fixtures/sample4.spec.js']
-const specs5 = [__dirname + '/fixtures/sample5.spec.js']
-const failureSpec = [__dirname + '/fixtures/hook.failure.spec.js']
+const specs = [path.join(__dirname, '/fixtures/sample.spec.js')]
+const specs2 = [path.join(__dirname, '/fixtures/sample2.spec.js')]
+const specs3 = [path.join(__dirname, '/fixtures/sample3.spec.js')]
+const specs4 = [path.join(__dirname, '/fixtures/sample4.spec.js')]
+const specs5 = [path.join(__dirname, '/fixtures/sample5.spec.js')]
+const failureSpec = [path.join(__dirname, '/fixtures/hook.failure.spec.js')]
 const NOOP = () => {}
 
 const WebdriverIO = class {}
@@ -20,11 +22,11 @@ WebdriverIO.prototype = {
      * task of this command is to add 1 so we can have a simple demo test like
      * browser.command(1).should.be.equal(2)
      */
-    command: (a) => new Promise((r) => {
-        setTimeout(() => r(a + 1), 2000)
+    command: (a) => new Promise((resolve) => {
+        setTimeout(() => resolve(a + 1), 2000)
     }),
-    pause: (ms = 500) => new Promise((r) => {
-        setTimeout(() => r(), ms)
+    pause: (ms = 500) => new Promise((resolve) => {
+        setTimeout(() => resolve(), ms)
     }),
     addCommand: (name, fn) => {
         WebdriverIO.prototype[name] = fn
@@ -50,7 +52,9 @@ describe('jasmine adapter hook tests', () => {
         describe('before', () => {
             let beforeHook
 
-            before(() => beforeHook = global._wdio.before)
+            before(() => {
+                beforeHook = global._wdio.before
+            })
 
             it('should get executed', () => {
                 beforeHook.wasExecuted.should.be.true()
@@ -70,7 +74,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeSuite', () => {
             let beforeSuiteHook
 
-            before(() => beforeSuiteHook = global._wdio.beforeSuite)
+            before(() => {
+                beforeSuiteHook = global._wdio.beforeSuite
+            })
 
             it('should get executed', () => {
                 beforeSuiteHook.wasExecuted.should.be.true()
@@ -91,7 +97,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeHook', () => {
             let beforeHookHook
 
-            before(() => beforeHookHook = global._wdio.beforeHook)
+            before(() => {
+                beforeHookHook = global._wdio.beforeHook
+            })
 
             it('should get executed', () => {
                 beforeHookHook.wasExecuted.should.be.true()
@@ -106,7 +114,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterHook', () => {
             let afterHookHook
 
-            before(() => afterHookHook = global._wdio.afterHook)
+            before(() => {
+                afterHookHook = global._wdio.afterHook
+            })
 
             it('should get executed', () => {
                 afterHookHook.wasExecuted.should.be.true()
@@ -121,7 +131,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeTest', () => {
             let beforeTestHook
 
-            before(() => beforeTestHook = global._wdio.beforeTest)
+            before(() => {
+                beforeTestHook = global._wdio.beforeTest
+            })
 
             it('should get executed', () => {
                 beforeTestHook.wasExecuted.should.be.true()
@@ -143,7 +155,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeCommand', () => {
             let beforeCommandHook
 
-            before(() => beforeCommandHook = global._wdio.beforeCommand)
+            before(() => {
+                beforeCommandHook = global._wdio.beforeCommand
+            })
 
             it('should get executed', () => {
                 beforeCommandHook.wasExecuted.should.be.true()
@@ -163,7 +177,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterCommand', () => {
             let afterCommandHook
 
-            before(() => afterCommandHook = global._wdio.afterCommand)
+            before(() => {
+                afterCommandHook = global._wdio.afterCommand
+            })
 
             it('should get executed', () => {
                 afterCommandHook.wasExecuted.should.be.true()
@@ -184,7 +200,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterTest', () => {
             let afterTestHook
 
-            before(() => afterTestHook = global._wdio.afterTest)
+            before(() => {
+                afterTestHook = global._wdio.afterTest
+            })
 
             it('should get executed', () => {
                 afterTestHook.wasExecuted.should.be.true()
@@ -208,7 +226,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterSuite', () => {
             let afterSuiteHook
 
-            before(() => afterSuiteHook = global._wdio.afterSuite)
+            before(() => {
+                afterSuiteHook = global._wdio.afterSuite
+            })
 
             it('should get executed', () => {
                 afterSuiteHook.wasExecuted.should.be.true()
@@ -229,7 +249,9 @@ describe('jasmine adapter hook tests', () => {
         describe('after', () => {
             let afterHook
 
-            before(() => afterHook = global._wdio.after)
+            before(() => {
+                afterHook = global._wdio.after
+            })
 
             it('should get executed', () => {
                 afterHook.wasExecuted.should.be.true()
@@ -263,7 +285,9 @@ describe('jasmine adapter hook tests', () => {
         describe('before', () => {
             let beforeHook
 
-            before(() => beforeHook = global.__wdio.before)
+            before(() => {
+                beforeHook = global.__wdio.before
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeHook.end - beforeHook.start
@@ -274,7 +298,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeSuite', () => {
             let beforeSuiteHook
 
-            before(() => beforeSuiteHook = global.__wdio.beforeSuite)
+            before(() => {
+                beforeSuiteHook = global.__wdio.beforeSuite
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeSuiteHook.end - beforeSuiteHook.start
@@ -285,7 +311,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeHook', () => {
             let beforeHookHook
 
-            before(() => beforeHookHook = global.__wdio.beforeHook)
+            before(() => {
+                beforeHookHook = global.__wdio.beforeHook
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeHookHook.end - beforeHookHook.start
@@ -296,7 +324,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterHook', () => {
             let afterHookHook
 
-            before(() => afterHookHook = global.__wdio.afterHook)
+            before(() => {
+                afterHookHook = global.__wdio.afterHook
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterHookHook.end - afterHookHook.start
@@ -307,7 +337,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeTest', () => {
             let beforeTestHook
 
-            before(() => beforeTestHook = global.__wdio.beforeTest)
+            before(() => {
+                beforeTestHook = global.__wdio.beforeTest
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeTestHook.end - beforeTestHook.start
@@ -318,7 +350,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeCommand', () => {
             let beforeCommandHook
 
-            before(() => beforeCommandHook = global.__wdio.beforeCommand)
+            before(() => {
+                beforeCommandHook = global.__wdio.beforeCommand
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeCommandHook.end - beforeCommandHook.start
@@ -329,7 +363,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterCommand', () => {
             let afterCommandHook
 
-            before(() => afterCommandHook = global.__wdio.afterCommand)
+            before(() => {
+                afterCommandHook = global.__wdio.afterCommand
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterCommandHook.end - afterCommandHook.start
@@ -340,7 +376,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterTest', () => {
             let afterTestHook
 
-            before(() => afterTestHook = global.__wdio.afterTest)
+            before(() => {
+                afterTestHook = global.__wdio.afterTest
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterTestHook.end - afterTestHook.start
@@ -351,7 +389,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterSuite', () => {
             let afterSuiteHook
 
-            before(() => afterSuiteHook = global.__wdio.afterSuite)
+            before(() => {
+                afterSuiteHook = global.__wdio.afterSuite
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterSuiteHook.end - afterSuiteHook.start
@@ -362,7 +402,9 @@ describe('jasmine adapter hook tests', () => {
         describe('after', () => {
             let afterHook
 
-            before(() => afterHook = global.__wdio.after)
+            before(() => {
+                afterHook = global.__wdio.after
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterHook.end - afterHook.start
@@ -382,7 +424,9 @@ describe('jasmine adapter hook tests', () => {
         describe('before', () => {
             let beforeHook
 
-            before(() => beforeHook = global.___wdio.before)
+            before(() => {
+                beforeHook = global.___wdio.before
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeHook.end - beforeHook.start
@@ -393,7 +437,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeSuite', () => {
             let beforeSuiteHook
 
-            before(() => beforeSuiteHook = global.___wdio.beforeSuite)
+            before(() => {
+                beforeSuiteHook = global.___wdio.beforeSuite
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeSuiteHook.end - beforeSuiteHook.start
@@ -404,7 +450,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeHook', () => {
             let beforeHookHook
 
-            before(() => beforeHookHook = global.___wdio.beforeHook)
+            before(() => {
+                beforeHookHook = global.___wdio.beforeHook
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeHookHook.end - beforeHookHook.start
@@ -415,7 +463,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterHook', () => {
             let afterHookHook
 
-            before(() => afterHookHook = global.___wdio.afterHook)
+            before(() => {
+                afterHookHook = global.___wdio.afterHook
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterHookHook.end - afterHookHook.start
@@ -426,7 +476,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeTest', () => {
             let beforeTestHook
 
-            before(() => beforeTestHook = global.___wdio.beforeTest)
+            before(() => {
+                beforeTestHook = global.___wdio.beforeTest
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeTestHook.end - beforeTestHook.start
@@ -437,7 +489,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeCommand', () => {
             let beforeCommandHook
 
-            before(() => beforeCommandHook = global.___wdio.beforeCommand)
+            before(() => {
+                beforeCommandHook = global.___wdio.beforeCommand
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeCommandHook.end - beforeCommandHook.start
@@ -448,7 +502,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterCommand', () => {
             let afterCommandHook
 
-            before(() => afterCommandHook = global.___wdio.afterCommand)
+            before(() => {
+                afterCommandHook = global.___wdio.afterCommand
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterCommandHook.end - afterCommandHook.start
@@ -459,7 +515,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterTest', () => {
             let afterTestHook
 
-            before(() => afterTestHook = global.___wdio.afterTest)
+            before(() => {
+                afterTestHook = global.___wdio.afterTest
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterTestHook.end - afterTestHook.start
@@ -470,7 +528,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterSuite', () => {
             let afterSuiteHook
 
-            before(() => afterSuiteHook = global.___wdio.afterSuite)
+            before(() => {
+                afterSuiteHook = global.___wdio.afterSuite
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterSuiteHook.end - afterSuiteHook.start
@@ -481,7 +541,9 @@ describe('jasmine adapter hook tests', () => {
         describe('after', () => {
             let afterHook
 
-            before(() => afterHook = global.___wdio.after)
+            before(() => {
+                afterHook = global.___wdio.after
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterHook.end - afterHook.start
@@ -550,7 +612,9 @@ describe('jasmine adapter hook tests', () => {
         describe('before', () => {
             let beforeHook
 
-            before(() => beforeHook = global._____wdio.before)
+            before(() => {
+                beforeHook = global._____wdio.before
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeHook.end - beforeHook.start
@@ -561,7 +625,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeSuite', () => {
             let beforeSuiteHook
 
-            before(() => beforeSuiteHook = global._____wdio.beforeSuite)
+            before(() => {
+                beforeSuiteHook = global._____wdio.beforeSuite
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeSuiteHook.end - beforeSuiteHook.start
@@ -572,7 +638,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeHook', () => {
             let beforeHookHook
 
-            before(() => beforeHookHook = global._____wdio.beforeHook)
+            before(() => {
+                beforeHookHook = global._____wdio.beforeHook
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeHookHook.end - beforeHookHook.start
@@ -583,7 +651,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterHook', () => {
             let afterHookHook
 
-            before(() => afterHookHook = global._____wdio.afterHook)
+            before(() => {
+                afterHookHook = global._____wdio.afterHook
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterHookHook.end - afterHookHook.start
@@ -594,7 +664,9 @@ describe('jasmine adapter hook tests', () => {
         describe('beforeTest', () => {
             let beforeTestHook
 
-            before(() => beforeTestHook = global._____wdio.beforeTest)
+            before(() => {
+                beforeTestHook = global._____wdio.beforeTest
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = beforeTestHook.end - beforeTestHook.start
@@ -605,7 +677,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterTest', () => {
             let afterTestHook
 
-            before(() => afterTestHook = global._____wdio.afterTest)
+            before(() => {
+                afterTestHook = global._____wdio.afterTest
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterTestHook.end - afterTestHook.start
@@ -616,7 +690,9 @@ describe('jasmine adapter hook tests', () => {
         describe('afterSuite', () => {
             let afterSuiteHook
 
-            before(() => afterSuiteHook = global._____wdio.afterSuite)
+            before(() => {
+                afterSuiteHook = global._____wdio.afterSuite
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterSuiteHook.end - afterSuiteHook.start
@@ -627,7 +703,9 @@ describe('jasmine adapter hook tests', () => {
         describe('after', () => {
             let afterHook
 
-            before(() => afterHook = global._____wdio.after)
+            before(() => {
+                afterHook = global._____wdio.after
+            })
 
             it('should defer execution until promise was resolved', () => {
                 let duration = afterHook.end - afterHook.start

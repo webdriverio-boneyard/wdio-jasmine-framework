@@ -1,7 +1,7 @@
 describe('sample test', () => {
-    it('can be declared with "it" but without a function')
+    it('can be declared with "it" but without a function') // eslint-disable-line mocha/no-pending-tests
 
-    it('can be declared with "it" but without a function and pend').pend('ignore me')
+    it('can be declared with "it" but without a function and pend').pend('ignore me') // eslint-disable-line mocha/no-pending-tests
 
     it('should pend with a reason', () => {
         pending('ignore reason')

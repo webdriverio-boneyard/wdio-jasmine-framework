@@ -1,23 +1,24 @@
+import path from 'path'
 import { JasmineAdapter } from '../lib/adapter'
 
-const syncSpecs = [__dirname + '/fixtures/tests.sync.spec.js']
-const asyncSpecs = [__dirname + '/fixtures/tests.async.spec.js']
-const asyncPromiseSpecs = [__dirname + '/fixtures/tests.async.promise.spec.js']
-const asyncFailureSpecs = [__dirname + '/fixtures/tests.async.failures.spec.js']
-const syncAsyncSpecs = [__dirname + '/fixtures/tests.sync.async.spec.js']
-const fdescribeSpecs = [__dirname + '/fixtures/tests.fdescribe.spec.js']
-const fitSpecs = [__dirname + '/fixtures/tests.fit.spec.js']
-const xitSpecs = [__dirname + '/fixtures/tests.xit.spec.js']
-const xdescribeSpecs = [__dirname + '/fixtures/tests.xdescribe.spec.js']
+const syncSpecs = [path.join(__dirname, '/fixtures/tests.sync.spec.js')]
+const asyncSpecs = [path.join(__dirname, '/fixtures/tests.async.spec.js')]
+const asyncPromiseSpecs = [path.join(__dirname, '/fixtures/tests.async.promise.spec.js')]
+const asyncFailureSpecs = [path.join(__dirname, '/fixtures/tests.async.failures.spec.js')]
+const syncAsyncSpecs = [path.join(__dirname, '/fixtures/tests.sync.async.spec.js')]
+const fdescribeSpecs = [path.join(__dirname, '/fixtures/tests.fdescribe.spec.js')]
+const fitSpecs = [path.join(__dirname, '/fixtures/tests.fit.spec.js')]
+const xitSpecs = [path.join(__dirname, '/fixtures/tests.xit.spec.js')]
+const xdescribeSpecs = [path.join(__dirname, '/fixtures/tests.xdescribe.spec.js')]
 const NOOP = () => {}
 
 const WebdriverIO = class {}
 WebdriverIO.prototype = {
-    pause: (ms = 500) => new Promise((r) => {
-        setTimeout(() => r(), ms)
+    pause: (ms = 500) => new Promise((resolve) => {
+        setTimeout(() => resolve(), ms)
     }),
-    command: (ms = 500) => new Promise((r) => {
-        setTimeout(() => r('foo'), ms)
+    command: (ms = 500) => new Promise((resolve) => {
+        setTimeout(() => resolve('foo'), ms)
     }),
     getPrototype: () => WebdriverIO.prototype
 }

@@ -1,13 +1,14 @@
+import path from 'path'
 import { JasmineAdapter } from '../lib/adapter'
 
-const syncSpecs = [__dirname + '/fixtures/tests.retry.sync.spec.js']
-const asyncSpecs = [__dirname + '/fixtures/tests.retry.async.spec.js']
+const syncSpecs = [path.join(__dirname, '/fixtures/tests.retry.sync.spec.js')]
+const asyncSpecs = [path.join(__dirname, '/fixtures/tests.retry.async.spec.js')]
 const NOOP = () => {}
 
 const WebdriverIO = class {}
 WebdriverIO.prototype = {
-    pause: (ms = 500) => new Promise((r) => setTimeout(() => r(), ms)),
-    command: (ms = 500) => new Promise((r) => setTimeout(() => r('foo'), ms)),
+    pause: (ms = 500) => new Promise((resolve) => setTimeout(() => resolve(), ms)),
+    command: (ms = 500) => new Promise((resolve) => setTimeout(() => resolve('foo'), ms)),
     getPrototype: () => WebdriverIO.prototype
 }
 

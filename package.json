@@ -4,10 +4,20 @@
   "description": "A WebdriverIO plugin. Adapter for Jasmine testing framework.",
   "main": "build/adapter.js",
   "scripts": {
-    "build": "grunt",
-    "dev": "mocha --watch -r should -t 50000 --compilers js:babel/register test/*.spec.js",
-    "test": "grunt mocha_istanbul",
-    "prepublish": "npm prune && npm run build"
+    "build": "run-s clean compile",
+    "clean": "rm -rf ./build ./coverage",
+    "compile": "babel lib/ -d build/",
+    "eslint": "eslint ./lib test/",
+    "release": "np patch",
+    "release:patch": "np patch",
+    "release:minor": "np minor",
+    "release:major": "np major",
+    "test": "run-s eslint test:unit",
+    "test:ci": "run-s clean eslint test:cover",
+    "test:unit": "mocha --compilers js:babel-core/register --colors --require should --reporter dot test/*.js",
+    "test:cover": "babel-node ./node_modules/.bin/isparta cover --include 'lib/*.js' _mocha -- --require should",
+    "prepublish": "npm prune && run-s build test",
+    "watch": "npm run compile -- --watch"
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,7 @@ global.______wdio = {}
 
 describe('sample test', () => {
     it('promise is resolved', () => {
-        return new Promise(result => {
+        return new Promise(() => {
             throw new Error('fail test')
         })
     })

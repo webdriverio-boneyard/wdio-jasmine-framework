@@ -1,16 +1,18 @@
+import path from 'path'
+
 import { adapterFactory, JasmineAdapter } from '../lib/adapter'
 import JasmineReporter from '../lib/reporter'
 
-const errorHandlingSpecs = [__dirname + '/fixtures/error.handling.spec.js']
-const errorHandlingPromiseSpecs = [__dirname + '/fixtures/error.handling.promise.spec.js']
-const errorHandlingAsyncSpecs = [__dirname + '/fixtures/error.handling.async.spec.js']
-const errorHandlingPromiseAsyncSpecs = [__dirname + '/fixtures/error.handling.promise.async.spec.js']
+const errorHandlingSpecs = [path.join(__dirname, '/fixtures/error.handling.spec.js')]
+const errorHandlingPromiseSpecs = [path.join(__dirname, '/fixtures/error.handling.promise.spec.js')]
+const errorHandlingAsyncSpecs = [path.join(__dirname, '/fixtures/error.handling.async.spec.js')]
+const errorHandlingPromiseAsyncSpecs = [path.join(__dirname, '/fixtures/error.handling.promise.async.spec.js')]
 const NOOP = () => {}
 
 const WebdriverIO = class {}
 WebdriverIO.prototype = {
-    pause: (ms = 500) => new Promise((r) => setTimeout(() => r(), ms)),
-    command: (ms = 500) => new Promise((r) => setTimeout(() => r('foo'), ms)),
+    pause: (ms = 500) => new Promise((resolve) => setTimeout(() => resolve(), ms)),
+    command: (ms = 500) => new Promise((resolve) => setTimeout(() => resolve('foo'), ms)),
     getPrototype: () => WebdriverIO.prototype
 }
 
