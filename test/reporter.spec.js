@@ -160,7 +160,7 @@ describe('jasmine reporter', () => {
                 type: 'test'
             })
 
-            send.args[1][0].err.stack.should.be.equal("Error: Expected \'WebdriverIO Testpage\' to be \'foobar\'.\n    at Object.<anonymous> (/some/path/DEV/b.js:7:36)")
+            send.args[1][0].err.stack.should.be.equal("Error: Expected 'WebdriverIO Testpage' to be 'foobar'.\n    at Object.<anonymous> (/some/path/DEV/b.js:7:36)")
         })
 
         it('should not clean stack if disabled', () => {
