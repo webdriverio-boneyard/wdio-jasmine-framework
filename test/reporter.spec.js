@@ -7,14 +7,16 @@ import JasmineReporter from '../lib/reporter'
 let send
 let reporter
 
-describe('jasmine reporter', () => {
-    before(() => {
-        reporter = new JasmineReporter()
-        send = reporter.send = sinon.stub()
-        send.returns(true)
-    })
+const ERROR_STACK = "Error: Expected 'WebdriverIO Testpage' to be 'foobar'.\n    at stack (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1640:17)\n    at buildExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1610:14)\n    at Spec.Env.expectationResultFactory (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:655:18)\n    at Spec.addExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:342:34)\n    at Expectation.addExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:599:21)\n    at Expectation.toBe (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1564:12)\n    at Object.<anonymous> (/some/path/DEV/b.js:7:36)\n    at /some/path/wdio-sync/build/index.js:578:26\n    at new Promise (/some/path/wdio-sync/node_modules/core-js/library/modules/es6.promise.js:191:7)\n    at Object.executeSync (/some/path/wdio-sync/build/index.js:576:12)"
 
+describe('jasmine reporter', () => {
     describe('emits messages for certain jasmine events', () => {
+        before(() => {
+            reporter = new JasmineReporter({})
+            send = reporter.send = sinon.stub()
+            send.returns(true)
+        })
+
         it('should emit suite:start', () => {
             reporter.suiteStarted({
                 description: 'my suite',
@@ -96,33 +98,97 @@ describe('jasmine reporter', () => {
                 parent: null
             }).should.be.true()
         })
-    })
 
-    it('should wait until all events were sent', () => {
-        const start = (new Date()).getTime()
-
-        reporter.specStarted()
-        reporter.specDone({
-            status: 'passed',
-            description: 'my test',
-            id: 4
-        })
-
-        setTimeout(() => {
-            send.args[0][3]()
-            send.args[1][3]()
-            send.args[2][3]()
-        }, 500)
-
-        return reporter.waitUntilSettled().then(() => {
-            const end = (new Date()).getTime();
-            (end - start).should.be.greaterThan(500)
-        })
-    })
-
-    describe('provides a fail counter', () => {
         it('should have right fail count at the end', () => {
             reporter.getFailedCount().should.be.exactly(2)
+        })
+    })
+
+    describe('defers messaging until all events arrived', () => {
+        before(() => {
+            reporter = new JasmineReporter({})
+            send = reporter.send = sinon.stub()
+            send.returns(true)
+        })
+
+        it('should wait until all events were sent', () => {
+            const start = (new Date()).getTime()
+
+            reporter.specStarted()
+            reporter.specDone({
+                status: 'passed',
+                description: 'my test',
+                id: 4
+            })
+
+            setTimeout(() => {
+                send.args[0][3]()
+                send.args[1][3]()
+                send.args[2][3]()
+            }, 500)
+
+            return reporter.waitUntilSettled().then(() => {
+                const end = (new Date()).getTime();
+                (end - start).should.be.greaterThan(500)
+            })
+        })
+    })
+
+    describe('cleans stack trace', () => {
+        it('should clean trace', () => {
+            reporter = new JasmineReporter({
+                cleanStack: true
+            })
+            send = reporter.send = sinon.stub()
+            send.returns(true)
+
+            reporter.specStarted()
+            reporter.specDone({
+                status: 'failed',
+                description: 'my test',
+                failedExpectations: [{
+                    matcherName: 'toBe',
+                    message: 'Expected \'WebdriverIO Testpage\' to be \'foobar\'.',
+                    stack: ERROR_STACK,
+                    passed: false,
+                    expected: 'foobar',
+                    actual: 'WebdriverIO Testpage'
+                }],
+                passedExpectations: [],
+                pendingReason: '',
+                start: 1489229979996,
+                type: 'test'
+            })
+
+            send.args[1][0].err.stack.should.be.equal("Error: Expected \'WebdriverIO Testpage\' to be \'foobar\'.\n    at Object.<anonymous> (/some/path/DEV/b.js:7:36)")
+        })
+
+        it('should not clean stack if disabled', () => {
+            reporter = new JasmineReporter({
+                cleanStack: false
+            })
+            send = reporter.send = sinon.stub()
+            send.returns(true)
+
+            reporter.specStarted()
+            reporter.specDone({
+                status: 'failed',
+                description: 'my test',
+                failedExpectations: [{
+                    matcherName: 'toBe',
+                    message: 'Expected \'WebdriverIO Testpage\' to be \'foobar\'.',
+                    stack: ERROR_STACK,
+                    passed: false,
+                    expected: 'foobar',
+                    actual: 'WebdriverIO Testpage'
+                }],
+                passedExpectations: [],
+                pendingReason: '',
+                start: 1489229979996,
+                type: 'test'
+            })
+
+            send.args[1][0].err.stack.should.be.equal(ERROR_STACK)
         })
     })
 })

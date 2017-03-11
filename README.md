@@ -71,6 +71,12 @@ Inverts 'grep' matches
 Type: `String[]`<br>
 Default: []
 
+## cleanStack
+Cleans up stack trace and removes all traces of node module packages
+
+Type: `Boolean`<br>
+Default: true
+
 ## Development
 
 All commands can be found in the package.json. The most important are:
