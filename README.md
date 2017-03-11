@@ -1,5 +1,9 @@
-WDIO Jasmine [![Build Status](https://travis-ci.org/webdriverio/wdio-jasmine-framework.svg?branch=master)](https://travis-ci.org/webdriverio/wdio-jasmine-framework) [![Code Climate](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/badges/gpa.svg)](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework) [![Test Coverage](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/badges/coverage.svg)](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/coverage)
+WDIO Jasmine
 ============
+
+[![Build Status](https://travis-ci.org/webdriverio/wdio-jasmine-framework.svg?branch=master)](https://travis-ci.org/webdriverio/wdio-jasmine-framework) [![Code Climate](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/badges/gpa.svg)](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework) [![Test Coverage](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/badges/coverage.svg)](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/coverage) [![devDependencies Status](https://david-dm.org/webdriverio/wdio-jasmine-framework/dev-status.svg)](https://david-dm.org/webdriverio/wdio-jasmine-framework?type=dev)
+
+***
 
 > A WebdriverIO plugin. Adapter for Jasmine testing framework.
 
@@ -10,7 +14,7 @@ The easiest way is to keep `wdio-jasmine-framework` as a devDependency in your `
 ```json
 {
   "devDependencies": {
-    "wdio-jasmine-framework": "~0.2.3"
+    "wdio-jasmine-framework": "~0.2.20"
   }
 }
 ```
@@ -66,6 +70,31 @@ Inverts 'grep' matches
 
 Type: `String[]`<br>
 Default: []
+
+## Development
+
+All commands can be found in the package.json. The most important are:
+
+Watch changes:
+
+```sh
+$ npm run watch
+```
+
+Run tests:
+
+```sh
+$ npm test
+
+# run test with coverage report:
+$ npm run test:cover
+```
+
+Build package:
+
+```sh
+$ npm build
+```
 
 ----
 
