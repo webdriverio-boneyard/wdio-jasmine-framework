@@ -1,8 +1,6 @@
 WDIO Jasmine Framework Adapter
 ==============================
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/webdriverio/wdio-jasmine-framework.svg)](https://greenkeeper.io/)
-
 [![Build Status](https://travis-ci.org/webdriverio/wdio-jasmine-framework.svg?branch=master)](https://travis-ci.org/webdriverio/wdio-jasmine-framework) [![Code Climate](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/badges/gpa.svg)](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework) [![Test Coverage](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/badges/coverage.svg)](https://codeclimate.com/github/webdriverio/wdio-jasmine-framework/coverage) [![devDependencies Status](https://david-dm.org/webdriverio/wdio-jasmine-framework/dev-status.svg)](https://david-dm.org/webdriverio/wdio-jasmine-framework?type=dev)
 
 ***
