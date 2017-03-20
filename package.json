@@ -62,7 +62,7 @@
     "npm-run-all": "4.0.2",
     "q": "1.4.1",
     "should": "11.2.1",
-    "sinon": "2.0.0"
+    "sinon": "2.1.0"
   },
   "contributors": [
     "christian-bromann <mail@christian-bromann.com>",
