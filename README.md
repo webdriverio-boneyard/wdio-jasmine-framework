@@ -60,16 +60,16 @@ Type: `Function`<br>
 Default: null
 
 ### grep
-Option to selectively select it/describe cases to run from spec files.
+Optional pattern to selectively select it/describe cases to run from spec files.
 
-Type: `String[]`<br>
-Default: []
+Type: `RegExp | string`<br>
+Default: undefined
 
 ## invertGrep
 Inverts 'grep' matches
 
-Type: `String[]`<br>
-Default: []
+Type: `Boolean`<br>
+Default: false
 
 ## cleanStack
 Cleans up stack trace and removes all traces of node module packages
