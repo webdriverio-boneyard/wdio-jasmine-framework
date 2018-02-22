@@ -53,7 +53,7 @@
     "codeclimate-test-reporter": "^0.4.1",
     "eslint": "^4.1.0",
     "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-mocha": "^4.9.0",
     "eslint-plugin-node": "^6.0.0",
     "eslint-plugin-promise": "^3.5.0",
