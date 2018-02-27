@@ -38,7 +38,7 @@
   "homepage": "https://github.com/webdriverio/wdio-jasmine-framework#readme",
   "dependencies": {
     "babel-runtime": "6.26.0",
-    "jasmine": "^3.0.0",
+    "jasmine": "^3.1.0",
     "wdio-sync": "0.7.1"
   },
   "devDependencies": {
