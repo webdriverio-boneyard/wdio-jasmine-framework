@@ -38,7 +38,6 @@ WebdriverIO.prototype = {
 }
 
 JasmineReporter.prototype.send = NOOP
-emitter.setMaxListeners()
 
 describe('jasmine adapter hook tests', () => {
     before(() => {
@@ -733,3 +732,4 @@ describe('jasmine adapter hook tests', () => {
         adapterFactory.__ResetDependency__('JasmineReporter')
     })
 })
+
