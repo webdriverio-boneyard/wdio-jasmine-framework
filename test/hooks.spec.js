@@ -1,4 +1,5 @@
 import path from 'path'
+import { EventEmitter } from 'events'
 
 import configQPromises from './fixtures/hooks.using.q.promises'
 import configNativePromises from './fixtures/hooks.using.native.promises'
@@ -15,6 +16,8 @@ const specs4 = [path.join(__dirname, '/fixtures/sample4.spec.js')]
 const specs5 = [path.join(__dirname, '/fixtures/sample5.spec.js')]
 const failureSpec = [path.join(__dirname, '/fixtures/hook.failure.spec.js')]
 const NOOP = () => {}
+
+EventEmitter.defaultMaxListeners = 15
 
 const WebdriverIO = class {}
 WebdriverIO.prototype = {
@@ -35,6 +38,7 @@ WebdriverIO.prototype = {
 }
 
 JasmineReporter.prototype.send = NOOP
+emitter.setMaxListeners()
 
 describe('jasmine adapter hook tests', () => {
     before(() => {
