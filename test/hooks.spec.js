@@ -732,4 +732,3 @@ describe('jasmine adapter hook tests', () => {
         adapterFactory.__ResetDependency__('JasmineReporter')
     })
 })
-
