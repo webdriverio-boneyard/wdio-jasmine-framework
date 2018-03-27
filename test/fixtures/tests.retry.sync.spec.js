@@ -64,5 +64,4 @@ describe('sample test', () => {
 
         it('doesn\'t matter', () => {})
     })
-
 })
