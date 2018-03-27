@@ -1,42 +1,6 @@
 describe('dummy test', () => {
     let retryCnt
 
-    describe('run flaky beforeAll hooks', () => {
-        beforeAll(() => {
-            retryCnt = 2
-        })
-
-        beforeAll(() => {
-            if (retryCnt !== 0) {
-                return browser.command().then((result) => {
-                    retryCnt--
-                    result.should.be.not.equal('foo')
-                })
-            }
-
-            return browser.command().then((result) => {
-                result.should.be.equal('foo')
-            })
-        }, 2)
-
-        beforeAll(() => {
-            retryCnt = 2
-        })
-
-        beforeAll(() => {
-            if (retryCnt !== 0) {
-                retryCnt--
-                throw new Error('FLAKE!')
-            }
-
-            return browser.command().then((result) => {
-                result.should.be.equal('foo')
-            })
-        }, 2)
-
-        it('doesn\'t matter', () => {})
-    })
-
     describe('run flaky beforeEach hooks', () => {
         beforeEach(() => {
             retryCnt = 2
@@ -132,42 +96,6 @@ describe('dummy test', () => {
                 result.should.be.equal('foo')
             })
         }, 2)
-    })
-
-    describe('run flaky afterAll hooks', () => {
-        afterAll(() => {
-            retryCnt = 2
-        })
-
-        afterAll(() => {
-            if (retryCnt !== 0) {
-                return browser.command().then((result) => {
-                    retryCnt--
-                    result.should.be.not.equal('foo')
-                })
-            }
-
-            return browser.command().then((result) => {
-                result.should.be.equal('foo')
-            })
-        }, 2)
-
-        afterAll(() => {
-            retryCnt = 2
-        })
-
-        afterAll(() => {
-            if (retryCnt !== 0) {
-                retryCnt--
-                throw new Error('FLAKE!')
-            }
-
-            return browser.command().then((result) => {
-                result.should.be.equal('foo')
-            })
-        }, 2)
-
-        it('doesn\'t matter', () => {})
     })
 
     describe('run flaky afterEach hooks', () => {

@@ -25,13 +25,15 @@ describe('JasmineAdapter', () => {
         global.browser = new WebdriverIO()
         global.browser.options = {}
         const adapter = new JasmineAdapter(0, JASMINE_NODE_OPTS, syncSpecs, {});
-        (await adapter.run()).should.be.equal(0, 'actual test failed')
+        const result = await adapter.run()
+        result.should.be.equal(0, 'actual test failed')
     })
 
     it('should be able to retry flaky async tests', async () => {
         global.browser = new WebdriverIO()
         global.browser.options = { sync: false }
         const adapter = new JasmineAdapter(0, JASMINE_NODE_OPTS, asyncSpecs, {});
-        (await adapter.run()).should.be.equal(0, 'actual test failed')
+        const result = await adapter.run()
+        result.should.be.equal(0, 'actual test failed')
     })
 })
