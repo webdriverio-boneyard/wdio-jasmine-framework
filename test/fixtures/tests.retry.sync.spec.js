@@ -18,7 +18,7 @@ describe('sample test', () => {
     })
 
     describe('run flaky beforeEach hooks', () => {
-        beforeEach(() => {
+        beforeAll(() => {
             retryCnt = 2
         })
 
@@ -82,7 +82,7 @@ describe('sample test', () => {
     })
 
     describe('run flaky afterAll hooks', () => {
-        afterAll(() => {
+        beforeAll(() => {
             retryCnt = 2
         })
 
