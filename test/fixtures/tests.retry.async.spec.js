@@ -1,7 +1,7 @@
 describe('dummy test', () => {
     let retryCnt
 
-    describe('run flaky beforeAll hooks', () => {
+    describe('run flaky (failed expectation) beforeAll hooks', () => {
         beforeAll(() => {
             retryCnt = 2
         })
@@ -19,6 +19,10 @@ describe('dummy test', () => {
             })
         }, 2)
 
+        it('doesn\'t matter', () => {})
+    })
+
+    describe('run flaky (error thrown) beforeAll hooks', () => {
         beforeAll(() => {
             retryCnt = 2
         })
@@ -37,8 +41,8 @@ describe('dummy test', () => {
         it('doesn\'t matter', () => {})
     })
 
-    describe('run flaky beforeEach hooks', () => {
-        beforeEach(() => {
+    describe('run flaky (failed expectation) beforeEach hooks', () => {
+        beforeAll(() => {
             retryCnt = 2
         })
 
@@ -54,8 +58,11 @@ describe('dummy test', () => {
                 result.should.be.equal('foo')
             })
         }, 2)
+        it('doesn\'t matter', () => {})
+    })
 
-        beforeEach(() => {
+    describe('run flaky (error thrown) beforeEach hooks', () => {
+        beforeAll(() => {
             retryCnt = 2
         })
 
@@ -80,7 +87,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky test', () => {
-        before(() => {
+        beforeAll(() => {
             retryCnt = 1
         })
 
@@ -99,7 +106,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky test', () => {
-        before(() => {
+        beforeAll(() => {
             retryCnt = 3
         })
 
@@ -118,7 +125,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky test', () => {
-        before(() => {
+        beforeAll(() => {
             retryCnt = 2
         })
 
@@ -134,8 +141,8 @@ describe('dummy test', () => {
         }, 2)
     })
 
-    describe('run flaky afterAll hooks', () => {
-        afterAll(() => {
+    describe('run flaky (false expectation) afterAll hooks', () => {
+        beforeAll(() => {
             retryCnt = 2
         })
 
@@ -152,7 +159,11 @@ describe('dummy test', () => {
             })
         }, 2)
 
-        afterAll(() => {
+        it('doesn\'t matter', () => {})
+    })
+
+    describe('run flaky (error thrown) afterAll hooks', () => {
+        beforeAll(() => {
             retryCnt = 2
         })
 
@@ -170,8 +181,8 @@ describe('dummy test', () => {
         it('doesn\'t matter', () => {})
     })
 
-    describe('run flaky afterEach hooks', () => {
-        afterEach(() => {
+    describe('run flaky (false expectation) afterEach hooks', () => {
+        beforeAll(() => {
             retryCnt = 2
         })
 
@@ -188,7 +199,11 @@ describe('dummy test', () => {
             })
         }, 2)
 
-        afterEach(() => {
+        it('doesn\'t matter', () => {})
+    })
+
+    describe('run flaky (error thrown) afterEach hooks', () => {
+        beforeAll(() => {
             retryCnt = 2
         })
 
