@@ -1,7 +1,6 @@
 describe('dummy test', () => {
-    let retryCnt
-
     describe('run flaky (failed expectation) beforeAll hooks', () => {
+        let retryCnt
         beforeAll(() => {
             retryCnt = 2
         })
@@ -23,6 +22,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky (error thrown) beforeAll hooks', () => {
+        let retryCnt
         beforeAll(() => {
             retryCnt = 2
         })
@@ -42,6 +42,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky (failed expectation) beforeEach hooks', () => {
+        let retryCnt
         beforeAll(() => {
             retryCnt = 2
         })
@@ -62,6 +63,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky (error thrown) beforeEach hooks', () => {
+        let retryCnt
         beforeAll(() => {
             retryCnt = 2
         })
@@ -87,6 +89,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky test', () => {
+        let retryCnt
         beforeAll(() => {
             retryCnt = 1
         })
@@ -106,6 +109,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky test', () => {
+        let retryCnt
         beforeAll(() => {
             retryCnt = 3
         })
@@ -125,6 +129,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky test', () => {
+        let retryCnt
         beforeAll(() => {
             retryCnt = 2
         })
@@ -142,6 +147,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky (false expectation) afterAll hooks', () => {
+        let retryCnt
         beforeAll(() => {
             retryCnt = 2
         })
@@ -163,6 +169,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky (error thrown) afterAll hooks', () => {
+        let retryCnt
         beforeAll(() => {
             retryCnt = 2
         })
@@ -182,6 +189,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky (false expectation) afterEach hooks', () => {
+        let retryCnt
         beforeAll(() => {
             retryCnt = 2
         })
@@ -203,6 +211,7 @@ describe('dummy test', () => {
     })
 
     describe('run flaky (error thrown) afterEach hooks', () => {
+        let retryCnt
         beforeAll(() => {
             retryCnt = 2
         })
