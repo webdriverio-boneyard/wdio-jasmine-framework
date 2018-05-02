@@ -75,7 +75,13 @@ Default: false
 Cleans up stack trace and removes all traces of node module packages
 
 Type: `Boolean`<br>
-Default: true
+Default: true  
+
+## random  
+Run specs in semi-random order  
+
+Type: `Boolean`<br>
+Default: `true`
 
 ## Development
 
