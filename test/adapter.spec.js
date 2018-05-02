@@ -58,6 +58,19 @@ describe('jasmine adapter unit tests', () => {
             })
         })
 
+        describe('random', () => {
+            it('disables random execution by default if nothing is set', () => {
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                adapter.getRandomExecutionPolicy().should.be.equal(false)
+            })
+
+            it('enables random execution when set', () => {
+                config.jasmineNodeOpts = {random: true}
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                adapter.getRandomExecutionPolicy().should.be.equal(true)
+            })
+        })
+
         describe('getGrepMatch', () => {
             it('should return always true if nothing set', () => {
                 adapter = new JasmineAdapter(1, config, specs, caps)
