@@ -81,7 +81,7 @@ Default: true
 Run specs in semi-random order  
 
 Type: `Boolean`<br>
-Default: `true`
+Default: `false`
 
 ## Development
 
