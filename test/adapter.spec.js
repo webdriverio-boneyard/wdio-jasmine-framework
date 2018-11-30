@@ -92,6 +92,19 @@ describe('jasmine adapter unit tests', () => {
             })
         })
 
+        describe('stopOnSpecFailure', () => {
+            it('disables stop spec on first failure by default', () => {
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                adapter.getStopOnSpecFailure().should.be.false()
+            })
+
+            it('enables stop spec on first failure if set', () => {
+                config.jasmineNodeOpts = { stopOnSpecFailure: true }
+                adapter = new JasmineAdapter(1, config, specs, caps)
+                adapter.getStopOnSpecFailure().should.be.true()
+            })
+        })
+
         describe('getExpectationResultHandler', () => {
             it('should return default jasmine expectationResultHandler if nothing set', () => {
                 adapter = new JasmineAdapter(1, config, specs, caps)
