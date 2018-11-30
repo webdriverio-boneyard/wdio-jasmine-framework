@@ -84,7 +84,7 @@ Type: `Boolean`<br>
 Default: `false`
 
 ### stopOnSpecFailure
-Stops spec execution on first fail (other specs continue running). Requires Jasmine 3.2+
+Stops spec execution on first fail (other specs continue running)
 
 Type: `Boolean`<br>
 Default: `false`
