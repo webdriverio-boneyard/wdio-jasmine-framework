@@ -7,7 +7,8 @@ import JasmineReporter from '../lib/reporter'
 let send
 let reporter
 
-const ERROR_STACK = "Error: Expected 'WebdriverIO Testpage' to be 'foobar'.\n    at stack (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1640:17)\n    at buildExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1610:14)\n    at Spec.Env.expectationResultFactory (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:655:18)\n    at Spec.addExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:342:34)\n    at Expectation.addExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:599:21)\n    at Expectation.toBe (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1564:12)\n    at Object.<anonymous> (/some/path/DEV/b.js:7:36)\n    at /some/path/wdio-sync/build/index.js:578:26\n    at new Promise (/some/path/wdio-sync/node_modules/core-js/library/modules/es6.promise.js:191:7)\n    at Object.executeSync (/some/path/wdio-sync/build/index.js:576:12)"
+const ERROR_STACK = ["Error: Expected 'WebdriverIO Testpage' to be 'foobar1'.\n    at stack (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1640:17)\n    at buildExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1610:14)\n    at Spec.Env.expectationResultFactory (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:655:18)\n    at Spec.addExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:342:34)\n    at Expectation.addExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:599:21)\n    at Expectation.toBe (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1564:12)\n    at Object.<anonymous> (/some/path/DEV/b.js:7:36)\n    at /some/path/wdio-sync/build/index.js:578:26\n    at new Promise (/some/path/wdio-sync/node_modules/core-js/library/modules/es6.promise.js:191:7)\n    at Object.executeSync (/some/path/wdio-sync/build/index.js:576:12)",
+    "Error: Expected 'WebdriverIO Testpage' to be 'foobar2'.\n    at stack (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1640:17)\n    at buildExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1610:14)\n    at Spec.Env.expectationResultFactory (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:655:18)\n    at Spec.addExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:342:34)\n    at Expectation.addExpectationResult (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:599:21)\n    at Expectation.toBe (/some/path/wdio-jasmine-framework/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1564:12)\n    at Object.<anonymous> (/some/path/DEV/b.js:7:36)\n    at /some/path/wdio-sync/build/index.js:578:26\n    at new Promise (/some/path/wdio-sync/node_modules/core-js/library/modules/es6.promise.js:191:7)\n    at Object.executeSync (/some/path/wdio-sync/build/index.js:576:12)"]
 
 describe('jasmine reporter', () => {
     describe('emits messages for certain jasmine events', () => {
@@ -148,19 +149,34 @@ describe('jasmine reporter', () => {
                 description: 'my test',
                 failedExpectations: [{
                     matcherName: 'toBe',
-                    message: 'Expected \'WebdriverIO Testpage\' to be \'foobar\'.',
-                    stack: ERROR_STACK,
+                    message: 'Expected \'WebdriverIO Testpage\' to be \'foobar1\'.',
+                    stack: ERROR_STACK[0],
                     passed: false,
-                    expected: 'foobar',
+                    expected: 'foobar1',
+                    actual: 'WebdriverIO Testpage'
+                }, {
+                    matcherName: 'toBe',
+                    message: 'Expected \'WebdriverIO Testpage\' to be \'foobar2\'.',
+                    stack: ERROR_STACK[1],
+                    passed: false,
+                    expected: 'foobar2',
                     actual: 'WebdriverIO Testpage'
                 }],
-                passedExpectations: [],
+                passedExpectations: [{
+                    matcherName: 'toBe',
+                    message: 'Expected \'WebdriverIO Testpage\' to be \'foobarpass\'.',
+                    passed: true,
+                    expected: 'foobarpass',
+                    actual: 'foobarpass'
+                }],
                 pendingReason: '',
                 start: 1489229979996,
                 type: 'test'
             })
 
-            send.args[1][0].err.stack.should.be.equal("Error: Expected 'WebdriverIO Testpage' to be 'foobar'.\n    at Object.<anonymous> (/some/path/DEV/b.js:7:36)")
+            send.args[1][0].err.forEach((e) => {
+                e.stack.should.be.equal("Error: Expected 'WebdriverIO Testpage' to be '" + e.expected + "'.\n    at Object.<anonymous> (/some/path/DEV/b.js:7:36)")
+            })
         })
 
         it('should not clean stack if disabled', () => {
@@ -176,19 +192,34 @@ describe('jasmine reporter', () => {
                 description: 'my test',
                 failedExpectations: [{
                     matcherName: 'toBe',
-                    message: 'Expected \'WebdriverIO Testpage\' to be \'foobar\'.',
-                    stack: ERROR_STACK,
+                    message: 'Expected \'WebdriverIO Testpage\' to be \'foobar1\'.',
+                    stack: ERROR_STACK[0],
                     passed: false,
-                    expected: 'foobar',
+                    expected: 'foobar1',
+                    actual: 'WebdriverIO Testpage'
+                }, {
+                    matcherName: 'toBe',
+                    message: 'Expected \'WebdriverIO Testpage\' to be \'foobar2\'.',
+                    stack: ERROR_STACK[1],
+                    passed: false,
+                    expected: 'foobar2',
                     actual: 'WebdriverIO Testpage'
                 }],
-                passedExpectations: [],
+                passedExpectations: [{
+                    matcherName: 'toBe',
+                    message: 'Expected \'WebdriverIO Testpage\' to be \'foobarpass\'.',
+                    passed: true,
+                    expected: 'foobarpass',
+                    actual: 'foobarpass'
+                }],
                 pendingReason: '',
                 start: 1489229979996,
                 type: 'test'
             })
 
-            send.args[1][0].err.stack.should.be.equal(ERROR_STACK)
+            send.args[1][0].err.forEach((e, i) => {
+                e.stack.should.be.equal(ERROR_STACK[i])
+            })
         })
     })
 })
